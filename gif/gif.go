@@ -14,9 +14,7 @@ import (
 
 func addText(dst *image.Paletted, text string, opts Options) {
 	mask := textMask(text, opts.FontPath, dst.Bounds().Dx(), dst.Bounds().Dy())
-	im := image.NewPaletted(dst.Bounds(), palette.Plan9)
-	fillRect(im, 0, 0, 400, 300, opts.FontColor)
-	draw.DrawMask(dst, dst.Bounds(), im, image.ZP, mask, image.ZP, draw.Over)
+	draw.DrawMask(dst, dst.Bounds(), &image.Uniform{opts.FontColor}, image.ZP, mask, image.ZP, draw.Over)
 }
 
 func textMask(text, FontPath string, width, height int) *image.Alpha {
@@ -88,16 +86,8 @@ func MakeGif(list []string, opts Options) error {
 func appendFrame(frames []*image.Paletted, word string, opts Options) []*image.Paletted {
 	fmt.Println(word)
 	dst := image.NewPaletted(image.Rect(0, 0, 400, 300), palette.Plan9)
-	fillRect(dst, 0, 0, 400, 300, opts.BackColor)
+	draw.Draw(dst, dst.Bounds(), &image.Uniform{opts.BackColor}, image.ZP, draw.Src)
 	addText(dst, word, opts)
 
 	return append(frames, dst)
-}
-
-func fillRect(dst *image.Paletted, x, y, w, h int, color color.RGBA) {
-	for i := 0; i <= w; i++ {
-		for j := 0; j <= h; j++ {
-			dst.Set(x+i, y+j, color)
-		}
-	}
 }
