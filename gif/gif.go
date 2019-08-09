@@ -32,13 +32,15 @@ type Options struct {
 	FontColor color.RGBA
 	BackColor color.RGBA
 	FontPath  string
+	Filename  string
 }
 
-func BuildOptions(font string, bcolor, fcolor [3]uint8) Options {
+func BuildOptions(font string, bcolor, fcolor [3]uint8, filename string) Options {
 	return Options{
 		FontPath:  font,
 		FontColor: color.RGBA{fcolor[0], fcolor[1], fcolor[2], 255},
 		BackColor: color.RGBA{bcolor[0], bcolor[1], bcolor[2], 255},
+		Filename:  filename,
 	}
 }
 
@@ -66,7 +68,7 @@ func MakeGif(list []string, opts Options) error {
 		BackgroundIndex: 0,
 	}
 
-	f, err := os.Create("foo.gif")
+	f, err := os.Create(opts.Filename)
 	if err != nil {
 		panic(err)
 	}

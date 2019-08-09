@@ -26,8 +26,9 @@ func main() {
 
 	var list = []string{"pipi", "caca", "prout", "cul", "nichon"}
 
+	var filename = "foo.gif"
 	var font_color = [3]uint8{0, 0, 0}
 	var back_color = [3]uint8{255, 255, 255}
-	var opts = gif.BuildOptions(font, font_color, back_color)
+	var opts = gif.BuildOptions(font, font_color, back_color, filename)
 	gif.MakeGif(list, opts)
 }
