@@ -23,7 +23,7 @@ func textMask(text, FontPath string, width, height int) *image.Alpha {
 	w, h := float64(width/2), float64(height/2)
 	// draw text
 	dc.SetRGB(0, 0, 0)
-	dc.LoadFontFace(FontPath, 128)
+	dc.LoadFontFace(FontPath, 64)
 	dc.DrawStringAnchored(text, w, h, 0.5, 0.5)
 	return dc.AsMask()
 }
