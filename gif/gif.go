@@ -33,6 +33,8 @@ type Options struct {
 	BackColor color.RGBA
 	FontPath  string
 	Filename  string
+	Width     int
+	Height    int
 }
 
 func BuildOptions(font string, bcolor, fcolor [3]uint8, filename string) Options {
@@ -44,8 +46,25 @@ func BuildOptions(font string, bcolor, fcolor [3]uint8, filename string) Options
 	}
 }
 
+func maxWidth(list []string, opts Options) int {
+	dc := gg.NewContext(0, 0)
+	dc.LoadFontFace(opts.FontPath, 64)
+	var width, w float64 = 0, 0
+	for _, word := range list {
+		w, _ = dc.MeasureString(word)
+		if w > width {
+			width = w
+		}
+	}
+
+	return int(width * 1.3)
+}
+
 func MakeGif(list []string, opts Options) error {
 	var frames = []*image.Paletted{}
+
+	opts.Width = maxWidth(list, opts)
+	opts.Height = 300
 
 	// Creating delay array
 	var delay = []int{}
@@ -61,9 +80,8 @@ func MakeGif(list []string, opts Options) error {
 		LoopCount: 0,
 		Disposal:  nil,
 		Config: image.Config{
-			// ColorModel: color.RGBAModel,
-			Width:  400,
-			Height: 300,
+			Width:  opts.Width,
+			Height: opts.Height,
 		},
 		BackgroundIndex: 0,
 	}
@@ -87,7 +105,7 @@ func MakeGif(list []string, opts Options) error {
 // func addFrame(dst *image.Paletted, word string, frames []*image.Paletted{}) []*image.Paletted{} {
 func appendFrame(frames []*image.Paletted, word string, opts Options) []*image.Paletted {
 	fmt.Println(word)
-	dst := image.NewPaletted(image.Rect(0, 0, 400, 300), palette.Plan9)
+	dst := image.NewPaletted(image.Rect(0, 0, opts.Width, opts.Height), palette.Plan9)
 	draw.Draw(dst, dst.Bounds(), &image.Uniform{opts.BackColor}, image.ZP, draw.Src)
 	addText(dst, word, opts)
 
