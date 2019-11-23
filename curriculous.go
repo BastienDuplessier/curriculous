@@ -24,7 +24,7 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	var list = []string{"pipi", "caca", "prout", "cul", "nichon"}
+	var list = []string{"pipi", "caca", "prout", "cul", "nichon", "caca", "prout", "cul", "nichon", "caca", "prout", "cul", "nichon", "caca", "prout", "cul", "nichon", "caca", "prout", "cul", "nichon", "caca", "prout", "cul", "FIN"}
 
 	var filename = "foo.gif"
 	var font_color = [3]uint8{0, 0, 0}

@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+const time = 500
+
 func addText(dst *image.Paletted, text string, opts Options) {
 	mask := textMask(text, opts.FontPath, dst.Bounds().Dx(), dst.Bounds().Dy())
 	draw.DrawMask(dst, dst.Bounds(), &image.Uniform{opts.FontColor}, image.ZP, mask, image.ZP, draw.Over)
@@ -68,10 +70,11 @@ func MakeGif(list []string, opts Options) error {
 
 	// Creating delay array
 	var delay = []int{}
+	d := time / len(list)
 
 	for _, word := range list {
 		frames = appendFrame(frames, word, opts)
-		delay = append(delay, 50)
+		delay = append(delay, d)
 	}
 
 	res := gif.GIF{

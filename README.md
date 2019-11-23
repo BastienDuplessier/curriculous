@@ -24,7 +24,7 @@ go build
 ## Roadmap
 
 - ~~Improve performance~~
-- Fill all words in 5 seconds
+- ~~Fill all words in 5 seconds~~
 - Allow to customize colors and font
 - Input from various files (text, word, pdf, excel)
 - More performance improvement
